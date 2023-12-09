@@ -19,9 +19,9 @@
     }
 
     #sidebar {
-      background-color: #343a40;
+      background-color: #563d7c;
       color: #fff;
-      height: 100vh;
+      height: auto;
     }
 
     #content {
@@ -35,11 +35,15 @@
     #sidebar a:hover {
       background-color: #555; /* Add hover effect */
     }
+    #navbar
+    {
+    	 background-color: #563d7c;
+    }
   </style>
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark" id="navbar">
     <a class="navbar-brand" href="#">Admin Dashboard</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -63,7 +67,7 @@
   <div class="container-fluid">
     <div class="row">
       <!-- Sidebar -->
-      <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar">
+      <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
         <div class="sidebar-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
@@ -102,9 +106,16 @@
           <h1 class="h2">Service Requests</h1>
          
         </div>
-	 <h1 class="h3">New Service Request</h1>
+	 
         <!-- Page content goes here -->
-		<table class="table table-bordered">
+        <div class="card">
+        <div class="card-header">
+        <h1 class="h3">New Service Request</h1>
+        </div>
+        <div class="card-body">
+      <div class="table-responsive">
+      <table id="example" class="table table-striped data-table" style="width: 100%">
+        
         <thead>
             <tr>
                 <th>Service id</th>
@@ -127,7 +138,7 @@
         String query = "select service_id,service_item_name,service_date,service.service_description,fk_customer_id,customer_name,customer_contact,customer_address from service inner join customer on service.fk_customer_id=customer.customer_id where service.fk_carpenter_id is null";
         Statement statement = con.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
-
+	
         // Loop through the result set and populate the Bootstrap table
         while (resultSet.next()) {
         	int serviceid=resultSet.getInt("service_id");
@@ -164,23 +175,29 @@
     %>
         </tbody>
     </table>
+    </div>
+    </div>
+    </div>
+    <div class="card mt-5">
+        <div class="card-header">
+         <h2 class="mb-4">Assign Carpenter</h2>
+        </div>
+        <div class="card-body">
     <div class="container form-container">
-    <h2 class="text-center mb-4">Assign Carpenter</h2>
-
     <form action="assigncarpenter" method="get">
         <div class="form-group">
             <label for="serviceId">Service ID:</label>
-            <input type="number" class="form-control" id="serviceId" name="serviceId" placeholder="Enter Service ID">
+            <input type="number" class="form-control" id="serviceId" name="serviceId" placeholder="Enter Service ID" required>
         </div>
 
         <div class="form-group">
             <label for="customerId">Customer ID:</label>
-            <input type="number" class="form-control" id="customerId" name="customerId" placeholder="Enter Customer ID">
+            <input type="number" class="form-control" id="customerId" name="customerId" placeholder="Enter Customer ID" required>
         </div>
 
         <div class="form-group">
             <label for="carpenterSelect">Select Carpenter:</label>
-            <select class="form-control" id="carpenterSelect" name="carid">
+            <select class="form-control" id="carpenterSelect" name="carid" required>
            <% 
              try
          {
@@ -210,6 +227,8 @@
 
         <button type="submit" class="btn btn-primary btn-block">Assign</button>
     </form>
+</div>
+</div>
 </div>
       </main>
     </div>

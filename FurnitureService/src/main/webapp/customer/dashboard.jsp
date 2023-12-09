@@ -35,6 +35,10 @@
     #sidebar a:hover {
       background-color: #555; /* Add hover effect */
     }
+    #card-form
+    {
+    background-color: #D4D4D4;
+    }
   </style>
 </head>
 <body>
@@ -96,7 +100,12 @@
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Welcome..</h1>
         </div>
+         <div class="card mt-5" id="card-form">
+        <div class="card-header">
           <h1 class="h3">Create New Service Request</h1>
+        </div>
+        <div class="card-body">
+         
 			<div class="container mt-2">
     <form id="serviceForm">
         <div class="form-group">
@@ -115,12 +124,17 @@
 
     <div id="message" class="mt-3 alert" role="alert" style="display: none;"></div>
 </div>
+</div>
+</div>
 <hr>
-<div class="container mt-5">
-    <h2>My Service Data</h2>
 
-    <!-- Bootstrap table to display data -->
-    <table class="table table-bordered">
+ <div class="card">
+        <div class="card-header">
+       <h2>My Service Data</h2>
+        </div>
+        <div class="card-body">
+      <div class="table-responsive">
+      <table class="table table-striped data-table" style="width: 100%">
         <thead>
             <tr>
                 <th>Service item Name</th>
@@ -162,7 +176,7 @@
             out.println("<td>" + formattedDate + "</td>");
             out.println("<td>" + serviceDescription + "</td>");
             out.println("<td>" + carpenter+" "+carcontact + "</td>");
-            out.println("<td>" + service_status + "</td>");
+            out.println("<td><span class='badge badge-pill badge-success'>" + service_status + "</span></td>");
             out.println("</tr>");
         }
 
@@ -176,6 +190,8 @@
   %>
         </tbody>
     </table>
+</div>
+</div>
 </div>
       </main>
     </div>

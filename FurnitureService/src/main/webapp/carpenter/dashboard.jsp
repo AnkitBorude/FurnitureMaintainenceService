@@ -99,12 +99,16 @@
       <!-- Main content -->
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" id="content">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Service Requests</h1>
-         
+          <h1 class="h2">Service Requests</h1>  
         </div>
-	 <h1 class="h3">My Service Request</h1>
+        <div class="card mt-5" id="card-form">
+        <div class="card-header">
+  <h1 class="h3">My Service Request</h1>
+        </div>
+        <div class="card-body">
+         
         <!-- Page content goes here -->
-		<table class="table table-bordered">
+		<table class="table table-striped data-table" style="width: 100%">
         <thead>
             <tr>
                 <th>Service id</th>
@@ -164,6 +168,8 @@
     %>
         </tbody>
     </table>
+    </div>
+    </div>
       </main>
     </div>
   </div>

@@ -102,8 +102,13 @@
           <h1 class="h2">WorkOrders</h1>
          
         </div>
-	  <h1 class="h3">New Services</h1>
-        <table class="table table-bordered">
+        <div class="card mt-2" id="card-form">
+        <div class="card-header">
+  <h1 class="h3">New Services</h1>
+        </div>
+        <div class="card-body">
+         
+	  <table class="table table-striped data-table" style="width: 100%">
         <thead>
             <tr>
                 <th>Service id</th>
@@ -162,8 +167,18 @@
     %>
         </tbody>
     </table>
+    </div>
+    </div>
+    
+    
+     <div class="card mt-5">
+        <div class="card-header">
+ <h1 class="h3">Create WorkOrder</h1>
+        </div>
+        <div class="card-body">
      <div class="container mt-5 form-container"> 
-      <h1 class="h3 mt-5">Create WorkOrder</h1>
+      <div class="row">
+      <div class="col">
     <form method="post" action="createworkorder">
         <div class="form-row">
             <div class="form-group col-md-12">
@@ -206,7 +221,7 @@
                 <input type="text" class="form-control" id="materialRate" name="workorderStatus" placeholder="Status">
             </div>
         </div>
-
+         
         <div class="form-row">
             <div class="col-md-6">
                 <button type="submit" class="btn btn-primary btn-block">Submit</button>
@@ -216,9 +231,53 @@
             </div>
         </div>
     </form>
+    </div>
+    <div class="col">
+    	<div class="form-row">
+		<div class="card mt-2 mb-2">
+        <div class="card-header">
+ 		<h1 class="h3">Materials Required</h1>
+        </div>
+        <div class="card-body">
+        <div class="form-row">
+        <label for="material">Material:</label>
+    <select id="material" class="form-control"></select>
+
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" min="1" class="form-control" required>
+	</div>
+	<div class="form-row mb-2"></div>
+    <button id="add" class="btn btn-primary btn-block">Add</button>
+	</div>
+   <table class="table table-striped data-table" style="width: 100%">
+        <thead>
+            <tr>
+                <th>Material</th>
+                <th>Price</th>
+                <th>Amount</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+    </table>
+
+Total Ammount :-     <div id="total" class="text-white bg-dark"> 0 </div>
+        </div>
+        </div>
+    </div>
+ </div>
 </div>
-<h1 class="h3 mt-5">My WorkOrders</h1>
- <table class="table table-bordered">
+</div>
+</div>
+
+<div class="card mt-5" id="card-form">
+        <div class="card-header">
+<h1 class="h3">My WorkOrders</h1>
+        </div>
+        <div class="card-body">
+     <div class="container mt-5 form-container"> 
+     
+   <table class="table table-striped data-table" style="width: 100%">
         <thead>
             <tr>
                 <th>Service id</th>
@@ -277,6 +336,9 @@
     %>
         </tbody>
     </table>
+    </div>
+    </div>
+    </div>
       </main>
     </div>
   </div>
@@ -284,6 +346,84 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+   <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Sample data for materials
+            const materials = [
+            	
+            	<%
+            	   try
+                {
+               Connection con=DbConnector.getConnection();
+               String query = "select material_name,material_rate from material where material_quantity>0";
+               Statement statement = con.createStatement();
+               ResultSet resultSet = statement.executeQuery(query);
+
+              
+               while (resultSet.next()) {
+               	String MaterialName=resultSet.getString("material_name");
+               	int Materialvalue=resultSet.getInt("material_rate");
+                   out.println("{ name:'" + MaterialName + "', price: "+Materialvalue+"},");
+               }
+
+               // Close resources
+               resultSet.close();
+               statement.close();
+               con.close();
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
+            	%>
+                { name: 'Nothing ', price: 0 }
+            ];
+
+            const materialSelect = document.getElementById('material');
+            const amountInput = document.getElementById('amount');
+            const addButton = document.getElementById('add');
+            const tableBody = document.getElementById('table-body');
+            const totalAmount = document.getElementById('total');
+            // Populate material dropdown
+            materials.forEach(material => {
+                const option = document.createElement('option');
+                option.value = material.price;
+                option.textContent = material.name;
+                materialSelect.appendChild(option);
+            });
+
+            addButton.addEventListener('click', function () {
+                const materialName = materialSelect.options[materialSelect.selectedIndex].text;
+                const materialPrice = parseFloat(materialSelect.value);
+                const materialAmount = parseInt(amountInput.value);
+
+                if (isNaN(materialAmount) || materialAmount <= 0) {
+                    alert('Please enter a valid amount.');
+                    return;
+                }
+
+                const totalRowPrice = materialPrice * materialAmount;
+
+                // Create a new row in the table
+                const newRow = tableBody.insertRow();
+                const nameCell = newRow.insertCell(0);
+                const priceCell = newRow.insertCell(1);
+                const amountCell = newRow.insertCell(2);
+                const totalCell=newRow.insertCell(3);
+                
+                nameCell.textContent = materialName;
+                priceCell.textContent = materialPrice;
+                amountCell.textContent = materialAmount;
+                totalCell.textContent=totalRowPrice;
+                // Update total amount
+                updateTotal(totalRowPrice);
+            });
+
+            function updateTotal(materialPrice) {
+                const currentTotal = parseFloat(totalAmount.textContent);
+                const newTotal = currentTotal + materialPrice;
+                totalAmount.textContent = newTotal;
+            }
+        });
+    </script>
 
 </body>
 </html>

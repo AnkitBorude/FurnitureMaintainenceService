@@ -95,8 +95,12 @@
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Work Orders</h1>
         </div>
-          <h1 class="h3">My Work Orders</h1>
-			 <div class="container">
+          
+		 <div class="card mt-5">
+        <div class="card-header">
+       <h1 class="h3">My Work Orders</h1>
+        </div>
+        <div class="card-body">
         <div class="row">
         <%
         try{
@@ -120,12 +124,14 @@
             String formattedDate = dateFormat.format(workorder_date );
            
             out.println("<div class='col-lg-4 col-md-6 mb-4'> <div class='card'><div class='card-body'>");
-            out.println("<h5 class='card-title font-weight-bold'>  id " + workorder_id + "</h5>");
-            out.println(" <p class='card-text font-weight-bold'>  Date " + formattedDate + "</p>");
-            out.println(" <p class='card-text font-weight-bold '>  Description " + workorder_description + "</p>");
-            out.println(" <p class='card-text font-weight-bold '> Service id " + service_id  + "</p>");
-            out.println(" <p class='card-text font-weight-bold text-primary'> Carpenter name " + carpenter_name + "</p>");
-            out.println(" <p class='card-text font-weight-bold text-success'> Status  " + workorder_status + "</p>");
+            out.println("<ul class='list-group'>");
+            out.println("<li class='list-group-item active'>  WorkOrder ID " + workorder_id + "</li>");
+            out.println(" <li class='list-group-item'>  Date " + formattedDate + "</li>");
+            out.println(" <li class='list-group-item'>  Description " + workorder_description + "</li>");
+            out.println(" <li class='list-group-item'> Service Id " + service_id  + "</li>");
+            out.println(" <li class='list-group-item list-group-item-primary'> Name Carpenter " + carpenter_name + "</li>");
+            out.println(" <li class='list-group-item list-group-item-success'> Current Status  " + workorder_status + "</li>");
+            out.println("</ul>");
             out.println(" </div></div></div>");
         }
 
@@ -137,6 +143,7 @@
         e.printStackTrace();
     }
   %>
+            </div>
             </div>
             </div>
       </main>
