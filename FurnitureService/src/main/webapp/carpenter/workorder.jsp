@@ -217,8 +217,8 @@
                <textarea class="form-control" id="workOrder" name="workorderDes" rows="4" required></textarea>
            </div>
             <div class="form-group col-md-6">
-                <label for="materialRate">WorkOrder Status</label>
-                <input type="text" class="form-control" id="materialRate" name="workorderStatus" placeholder="Status">
+                <label for="workorderStatus">WorkOrder Status</label>
+                <input type="text" class="form-control" id="workOrderStatus" name="workorderStatus" placeholder="Status">
             </div>
         </div>
          
@@ -347,6 +347,23 @@ Total Ammount :-     <div id="total" class="text-white bg-dark"> 0 </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
    <script>
+   function clearForm()
+   {
+	    const materialSelect = document.getElementById('material');
+        const amountInput = document.getElementById('amount');
+        const tableBody = document.getElementById('table-body');
+        const totalAmount = document.getElementById('total');
+        const materialSelect2 = document.getElementById('materialName');
+        const workOrder = document.getElementById('workOrder');
+        const status = document.getElementById('workOrderStatus');
+	   materialSelect.selectedIndex = 0;
+	   materialSelect2.selectedInder=0;
+	   workOrder.value='';
+	   status.value='';
+       amountInput.value = '';
+       tableBody.innerHTML = '';
+       totalAmount.textContent = '0';  
+   }
         document.addEventListener('DOMContentLoaded', function () {
             // Sample data for materials
             const materials = [
