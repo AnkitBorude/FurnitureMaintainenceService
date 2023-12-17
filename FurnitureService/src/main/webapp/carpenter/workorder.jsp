@@ -338,10 +338,15 @@ Total Ammount :-    Rs.  <div id="total" class="text-white bg-dark"> 0 </div>
             out.println("<td>" + workordercost + "</td>");
             out.println("<td>" + wformattedDate + "</td>");
             out.println("<td>" + customer +" "+cuscontact+"</td>");
-            if(workorderStatus.equals("Approved"))
+            if(serviceStatus.equals("Approved"))
             {
+            	if(workorderStatus.equals("Completed"))
+            	{
+            		 out.println("<td><div class='alert alert-success' role='alert'>Workorder Completed</td>");
+            	}else
+            	{
             out.println("<td><form action='markcompleted' method='post'><input type='text' name='wid' value='"+workorderid+"'  hidden><input type='submit' value ='Completed' class='btn btn-success'></form></td>");
-            
+            	}
             }else
             {
             	 out.println("<td><form action='markcompleted' method='post'><input type='text' name='wid' value='"+workorderid+"'  hidden><input type='submit' value ='Completed' class='btn btn-success' disabled></form></td>");

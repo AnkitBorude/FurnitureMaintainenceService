@@ -340,7 +340,8 @@
                 <th>Service Date</th>
                 <th>Customer name & Contact </th>
                 <th>Carpenter name & contact</th>
-             	<th>Total Workorders</th>
+             	<th>Total W/O</th>
+             	<th>Completed W/O</th>
              	<th>Total Material Cost</th>
              	<th>Mark Completed</th>
             </tr>
@@ -352,7 +353,7 @@
          try
          {
         Connection con=DbConnector.getConnection();
-        String query = "SELECT service_id,service_item_name,service_status,service_date,service_description,COUNT(workorder_id) AS total_count,SUM(workorder_cost) AS total_sum,customer_name,customer_contact,carpenter_name,carpenter_contact FROM service LEFT JOIN workorder ON service.service_id = workorder.fk_service_id LEFT JOIN customer ON service.fk_customer_id = customer.customer_id LEFT JOIN carpenter ON service.fk_carpenter_id = carpenter.carpenter_id where service_status = 'Approved' GROUP BY service_id,customer_name, customer_contact,carpenter_name,carpenter_contact;";
+        String query = "SELECT service_id,service_item_name,service_status,service_date,service_description,COUNT(workorder_id) AS total_count,SUM(workorder_cost) AS total_sum,customer_name,customer_contact,carpenter_name,carpenter_contact,sum(CASE WHEN workorder_status = 'Completed' THEN 1 ELSE 0 END) as completed_workorders from service left join workorder on service.service_id = workorder.fk_service_id left join customer on service.fk_customer_id = customer.customer_id LEFT JOIN carpenter ON service.fk_carpenter_id = carpenter.carpenter_id where service_status = 'Approved' GROUP BY service_id,customer_name, customer_contact,carpenter_name,carpenter_contact;";
         Statement statement = con.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
 	
@@ -372,6 +373,7 @@
            
             int total_count=resultSet.getInt("total_count");
             int total_sum=resultSet.getInt("total_sum");
+            int total_completed=resultSet.getInt("completed_workorders");
             
             // Format the date as needed (adjust the pattern accordingly)
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -386,8 +388,16 @@
             out.println("<td>" + customer + " "+ cuscontact+"</td>");
             out.println("<td>" + carpenterName + " "+carpenterContact+"</td>");
             out.println("<td>" + total_count + "</td>");
+            out.println("<td>" + total_completed + "</td>");
             out.println("<td>" + total_sum + "</td>");
-            out.println("<td><button class='btn btn-success'> Completed </button></td>");
+            if(total_completed==total_count)
+            {
+                out.println("<td><form action='servicecompleted' method='post'><input type='text' name='serviceid' value='"+serviceid+"'  hidden><input type='submit' value ='Mark Completed' class='btn btn-success'></form></td>");
+            }
+            else
+            {
+       		 out.println("<td><div class='alert alert-warning' role='alert'>Under Working</td>");
+            }
             out.println("</tr>");
         }
 
