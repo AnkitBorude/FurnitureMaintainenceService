@@ -230,7 +230,7 @@
 </div>
 </div>
 </div>
-<div class="card">
+<div class="card mt-5">
         <div class="card-header">
         <h1 class="h3">Service Request Status</h1>
         </div>
@@ -248,7 +248,7 @@
                 <th>Customer contact</th>
              	<th>Carpenter Name</th>
              	<th>Carpenter Contact</th>
-             	<th>Current Status</th>
+             	<th>service status</th>
             </tr>
         </thead>
         <tbody>
@@ -291,7 +291,103 @@
             
             out.println("<td>" + carpenterName + "</td>");
             out.println("<td>" + carpenterContact + "</td>");
-            out.println("<td><span class='badge badge-pill badge-success'>" + service_status + "</span></td>");
+            if(service_status.equals("Assigned"))
+            {
+            	  out.println("<td><div class='alert alert-primary' role='alert'>" + service_status + "</td>");
+            } else if(service_status.equals("Approved"))
+            {
+            	  out.println("<td><div class='alert alert-success' role='alert'>" + service_status + "</td>");
+            }
+            else if(service_status.equals("Workorder"))
+            {
+            	  out.println("<td><div class='alert alert-info' role='alert'>" + service_status + "</td>");
+            }
+            else
+            {
+            	out.println("<td><div class='alert alert-warning' role='alert'>" + service_status + "</td>");
+            }
+            
+            out.println("</tr>");
+        }
+
+        // Close resources
+        resultSet.close();
+        statement.close();
+        con.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    %>
+        </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    
+    <div class="card mt-5">
+        <div class="card-header">
+        <h1 class="h3">Service Request Under Working</h1>
+        </div>
+        <div class="card-body">
+      <div class="table-responsive">
+      <table id="example" class="table table-striped data-table" style="width: 100%">
+        
+        <thead>
+            <tr>
+                <th>Service id</th>
+                <th>Service Item Name</th>
+                <th>Service Description</th>
+                <th>Service Date</th>
+                <th>Customer name & Contact </th>
+                <th>Carpenter name & contact</th>
+             	<th>Total Workorders</th>
+             	<th>Total Material Cost</th>
+             	<th>Mark Completed</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+         <%
+        
+         try
+         {
+        Connection con=DbConnector.getConnection();
+        String query = "SELECT service_id,service_item_name,service_status,service_date,service_description,COUNT(workorder_id) AS total_count,SUM(workorder_cost) AS total_sum,customer_name,customer_contact,carpenter_name,carpenter_contact FROM service LEFT JOIN workorder ON service.service_id = workorder.fk_service_id LEFT JOIN customer ON service.fk_customer_id = customer.customer_id LEFT JOIN carpenter ON service.fk_carpenter_id = carpenter.carpenter_id where service_status = 'Approved' GROUP BY service_id,customer_name, customer_contact,carpenter_name,carpenter_contact;";
+        Statement statement = con.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+	
+        // Loop through the result set and populate the Bootstrap table
+        while (resultSet.next()) {
+        	int serviceid=resultSet.getInt("service_id");
+            String serviceName = resultSet.getString("service_item_name");
+           	java.sql.Date serviceDate = resultSet.getDate("service_date");
+            String serviceDescription = resultSet.getString("service_description");
+            String service_status = resultSet.getString("service_status");
+            
+            String customer = resultSet.getString("customer_name");
+            String cuscontact = resultSet.getString("customer_contact");
+            
+            String carpenterName = resultSet.getString("carpenter_name");
+            String carpenterContact = resultSet.getString("carpenter_contact");
+           
+            int total_count=resultSet.getInt("total_count");
+            int total_sum=resultSet.getInt("total_sum");
+            
+            // Format the date as needed (adjust the pattern accordingly)
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = dateFormat.format(serviceDate);
+           
+            out.println("<tr>");
+            out.println("<td>" + serviceid + "</td>");
+            out.println("<td>" + serviceName + "</td>");
+            out.println("<td>" + serviceDescription + "</td>");
+            out.println("<td>" + formattedDate + "</td>");
+           
+            out.println("<td>" + customer + " "+ cuscontact+"</td>");
+            out.println("<td>" + carpenterName + " "+carpenterContact+"</td>");
+            out.println("<td>" + total_count + "</td>");
+            out.println("<td>" + total_sum + "</td>");
+            out.println("<td><button class='btn btn-success'> Completed </button></td>");
             out.println("</tr>");
         }
 
