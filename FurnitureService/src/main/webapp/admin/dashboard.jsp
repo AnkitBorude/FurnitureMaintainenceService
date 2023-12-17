@@ -230,6 +230,84 @@
 </div>
 </div>
 </div>
+<div class="card">
+        <div class="card-header">
+        <h1 class="h3">Service Request Status</h1>
+        </div>
+        <div class="card-body">
+      <div class="table-responsive">
+      <table id="example" class="table table-striped data-table" style="width: 100%">
+        
+        <thead>
+            <tr>
+                <th>Service id</th>
+                <th>Service Item Name</th>
+                <th>Service Description</th>
+                <th>Service Date</th>
+                <th>Customer name </th>
+                <th>Customer contact</th>
+             	<th>Carpenter Name</th>
+             	<th>Carpenter Contact</th>
+             	<th>Current Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+         <%
+        
+         try
+         {
+        Connection con=DbConnector.getConnection();
+        String query = "SELECT service_id,service_item_name, service_date, service_description,customer_name,customer_contact,carpenter_name,carpenter_contact,service_status FROM service left join carpenter on service.fk_carpenter_id=carpenter.carpenter_id inner join customer on service.fk_customer_id= customer.customer_id";
+        Statement statement = con.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+	
+        // Loop through the result set and populate the Bootstrap table
+        while (resultSet.next()) {
+        	int serviceid=resultSet.getInt("service_id");
+            String serviceName = resultSet.getString("service_item_name");
+           	java.sql.Date serviceDate = resultSet.getDate("service_date");
+            String serviceDescription = resultSet.getString("service_description");
+            String service_status = resultSet.getString("service_status");
+            
+            String customer = resultSet.getString("customer_name");
+            String cuscontact = resultSet.getString("customer_contact");
+            
+            String carpenterName = resultSet.getString("carpenter_name");
+            String carpenterContact = resultSet.getString("carpenter_contact");
+            
+            // Format the date as needed (adjust the pattern accordingly)
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = dateFormat.format(serviceDate);
+           
+            out.println("<tr>");
+            out.println("<td>" + serviceid + "</td>");
+            out.println("<td>" + serviceName + "</td>");
+            out.println("<td>" + serviceDescription + "</td>");
+            out.println("<td>" + formattedDate + "</td>");
+           
+            out.println("<td>" + customer + "</td>");
+            out.println("<td>" + cuscontact + "</td>");
+            
+            out.println("<td>" + carpenterName + "</td>");
+            out.println("<td>" + carpenterContact + "</td>");
+            out.println("<td><span class='badge badge-pill badge-success'>" + service_status + "</span></td>");
+            out.println("</tr>");
+        }
+
+        // Close resources
+        resultSet.close();
+        statement.close();
+        con.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    %>
+        </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
       </main>
     </div>
   </div>

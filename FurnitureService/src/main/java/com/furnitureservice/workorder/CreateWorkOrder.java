@@ -1,6 +1,5 @@
 package com.furnitureservice.workorder;
 
-import java.beans.Statement;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,6 +23,8 @@ public class CreateWorkOrder extends HttpServlet {
 			String serviceId = request.getParameter("serviceId");
 	        String workorderDes = request.getParameter("workorderDes");
 	        String workorderStatus = request.getParameter("workorderStatus");
+	        String workordercost =request.getParameter("materialwcost");
+	        
 	        java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
 	        
 	        HttpSession session= request.getSession();
@@ -31,14 +32,15 @@ public class CreateWorkOrder extends HttpServlet {
 			Connection con=DbConnector.getConnection();
 			try {
 				 String sql = "INSERT INTO workorder (workorder_date,workorder_description, " +
-		                    "workorder_status,fk_carpenter_id,fk_service_id) " +
-		                    "VALUES (?, ?, ?, ?,?)";
+		                    "workorder_status,fk_carpenter_id,fk_service_id,workorder_cost) " +
+		                    "VALUES (?, ?, ?, ?,?,?)";
 				PreparedStatement stmt =con.prepareStatement(sql);
 				stmt.setDate(1,date);		
 				stmt.setString(2,workorderDes);
 				stmt.setString(3,workorderDes);
 				stmt.setInt(4,carpenter);
 				stmt.setInt(5,Integer.parseInt(serviceId));
+				stmt.setInt(6,Integer.parseInt(workordercost));
 				int row=stmt.executeUpdate();
 			if(row>0)
 				{

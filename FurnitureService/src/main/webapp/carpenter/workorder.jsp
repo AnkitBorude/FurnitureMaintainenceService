@@ -104,7 +104,7 @@
         </div>
         <div class="card mt-2" id="card-form">
         <div class="card-header">
-  <h1 class="h3">New Services</h1>
+  <h1 class="h3">New  Assigned Services</h1>
         </div>
         <div class="card-body">
          
@@ -219,10 +219,12 @@
             <div class="form-group col-md-6">
                 <label for="workorderStatus">WorkOrder Status</label>
                 <input type="text" class="form-control" id="workOrderStatus" name="workorderStatus" placeholder="Status">
+            	 <input type="text" id="materialcost" value="0" name="materialwcost" hidden>
             </div>
         </div>
          
         <div class="form-row">
+        <input type="text" id="materialcost" value="0" name="materialcost" hidden/>
             <div class="col-md-6">
                 <button type="submit" class="btn btn-primary btn-block">Submit</button>
             </div>
@@ -261,7 +263,7 @@
         <tbody id="table-body"></tbody>
     </table>
 
-Total Ammount :-     <div id="total" class="text-white bg-dark"> 0 </div>
+Total Ammount :-    Rs.  <div id="total" class="text-white bg-dark"> 0 </div>
         </div>
         </div>
     </div>
@@ -280,14 +282,16 @@ Total Ammount :-     <div id="total" class="text-white bg-dark"> 0 </div>
    <table class="table table-striped data-table" style="width: 100%">
         <thead>
             <tr>
-                <th>Service id</th>
-                <th>Service Item Name</th>
-                <th>Service Description</th>
-                <th>Service Date</th>
-                <th>customer id</th>
-                <th>Customer name </th>
-                <th>Customer contact</th>
-                <th>Customer address</th>
+                <th>Work id</th>
+                <th> Service ID</th>
+                 <th>Service Date</th>
+                <th>Service Name</th>
+                <th>Service Status</th>
+                <th>workorder Status</th>
+            	<th>workorder cost</th>
+            	<th>workorder date</th>
+                <th>Customer name & contact </th>
+                <th>Mark As Completed</th>
             </tr>
         </thead>
         <tbody>
@@ -297,32 +301,52 @@ Total Ammount :-     <div id="total" class="text-white bg-dark"> 0 </div>
          try
          {
         Connection con=DbConnector.getConnection();
-        String query = "select service_id,service_item_name,service_date,service.service_description,fk_customer_id,customer_name,customer_contact,customer_address from service inner join customer on service.fk_customer_id=customer.customer_id where service.fk_carpenter_id = "+carpenter+" and service.service_status='Assigned'";
+        String query = "select workorder_id,fk_service_id,service_item_name,service_date,service_status,workorder_status,workorder_description,workorder_cost,workorder_date,customer_name,customer_contact from workorder inner join carpenter on workorder.fk_carpenter_id=carpenter.carpenter_id inner join service on workorder.fk_service_id=service.service_id inner join customer on service.fk_customer_id=customer.customer_id where workorder.fk_carpenter_id= "+carpenter;
         Statement statement = con.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
 
         // Loop through the result set and populate the Bootstrap table
         while (resultSet.next()) {
-        	int serviceid=resultSet.getInt("service_id");
+        	
+        	
+        	int serviceid=resultSet.getInt("fk_service_id");
             String serviceName = resultSet.getString("service_item_name");
            	java.sql.Date serviceDate = resultSet.getDate("service_date");
-            String serviceDescription = resultSet.getString("service_description");
+            String serviceStatus = resultSet.getString("service_status");
+            
+            int workorderid=resultSet.getInt("workorder_id");
+            String workorderStatus = resultSet.getString("workorder_status");
+            String workorderDescription = resultSet.getString("workorder_description");
+            int workordercost=resultSet.getInt("workorder_cost");
+        	java.sql.Date workDate = resultSet.getDate("workorder_date");
+        	
             String customer = resultSet.getString("customer_name");
-          	int customerid=resultSet.getInt("fk_customer_id");
             String cuscontact = resultSet.getString("customer_contact");
-            String cusaddr = resultSet.getString("customer_address");
+            
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String formattedDate = dateFormat.format(serviceDate);
+            String sformattedDate = dateFormat.format(serviceDate);
+            String wformattedDate= dateFormat.format(workDate);
+           //changing the following data value
            
             out.println("<tr>");
+            out.println("<td>" + workorderid + "</td>");
             out.println("<td>" + serviceid + "</td>");
+            out.println("<td>" + sformattedDate + "</td>");
             out.println("<td>" + serviceName + "</td>");
-            out.println("<td>" + serviceDescription + "</td>");
-            out.println("<td>" + formattedDate + "</td>");
-            out.println("<td>" + customerid + "</td>");
-            out.println("<td>" + customer + "</td>");
-            out.println("<td>" + cuscontact + "</td>");
-            out.println("<td>" + cusaddr + "</td>");
+            out.println("<td>" + serviceStatus + "</td>");
+            out.println("<td>" + workorderStatus + "</td>");
+            out.println("<td>" + workordercost + "</td>");
+            out.println("<td>" + wformattedDate + "</td>");
+            out.println("<td>" + customer +" "+cuscontact+"</td>");
+            if(workorderStatus.equals("Approved"))
+            {
+            out.println("<td><form action='markcompleted' method='post'><input type='text' name='wid' value='"+workorderid+"'  hidden><input type='submit' value ='Completed' class='btn btn-success'></form></td>");
+            
+            }else
+            {
+            	 out.println("<td><form action='markcompleted' method='post'><input type='text' name='wid' value='"+workorderid+"'  hidden><input type='submit' value ='Completed' class='btn btn-success' disabled></form></td>");
+            }
+            
             out.println("</tr>");
         }
 
@@ -438,6 +462,7 @@ Total Ammount :-     <div id="total" class="text-white bg-dark"> 0 </div>
                 const currentTotal = parseFloat(totalAmount.textContent);
                 const newTotal = currentTotal + materialPrice;
                 totalAmount.textContent = newTotal;
+                document.getElementById('materialcost').value=newTotal;
             }
         });
     </script>
