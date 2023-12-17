@@ -86,9 +86,18 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/FurnitureService/admin/billmaterial.jsp">
-                Bill And Material
-              </a>
+            	<ul class="nav flex-column">
+            		<li class="nav-item">
+            		 <a class="nav-link" href="#">
+                		Bill
+              		</a>
+            		</li>
+             		 <li class="nav-item">
+            		 <a class="nav-link" href="#">
+               		 Material
+              		</a>
+            		</li>
+            </ul> 
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
