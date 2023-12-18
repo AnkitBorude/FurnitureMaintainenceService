@@ -70,32 +70,30 @@
       <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
         <div class="sidebar-sticky">
           <ul class="nav flex-column">
-            <li class="nav-item">
+           <li class="nav-item">
               <a class="nav-link active" href="/FurnitureService/admin/dashboard.jsp">
                 Dashboard
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href=#>
-                Service Request
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="/FurnitureService/admin/workorder.jsp">
                 WorkOrder
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/FurnitureService/admin/billmaterial.jsp">
-                Bill And Material
-              </a>
+            	<ul class="nav flex-column">
+            		<li class="nav-item">
+            		 <a class="nav-link" href="/FurnitureService/admin/bill.jsp">
+                		Bill
+              		</a>
+            		</li>
+             		 <li class="nav-item">
+            		 <a class="nav-link" href="/FurnitureService/admin/billmaterial.jsp">
+               		 Material
+              		</a>
+            		</li>
+            </ul> 
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Profile
-              </a>
-            </li>
-            <!-- Add more menu items as needed -->
           </ul>
         </div>
       </nav>

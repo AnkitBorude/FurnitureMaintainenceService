@@ -72,7 +72,7 @@
         <div class="sidebar-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link" href="/FurnitureService/customer/dashboard.jsp"">
+              <a class="nav-link" href="/FurnitureService/customer/dashboard.jsp">
                 Service Request
               </a>
             </li>
@@ -82,13 +82,8 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="/FurnitureService/customer/bill.jsp">
                 Bill
-              </a>
-            </li>
-             <li class="nav-item">
-              <a class="nav-link" href="#">
-                Profile
               </a>
             </li>
           </ul>

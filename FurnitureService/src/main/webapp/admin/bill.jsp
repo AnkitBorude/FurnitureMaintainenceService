@@ -76,35 +76,24 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href=#>
-                Service Request
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="/FurnitureService/admin/workorder.jsp">
                 WorkOrder
               </a>
             </li>
             <li class="nav-item">
             	<ul class="nav flex-column">
             		<li class="nav-item">
-            		 <a class="nav-link" href="#">
+            		 <a class="nav-link" href="/FurnitureService/admin/bill.jsp">
                 		Bill
               		</a>
             		</li>
              		 <li class="nav-item">
-            		 <a class="nav-link" href="#">
+            		 <a class="nav-link" href="/FurnitureService/admin/billmaterial.jsp">
                		 Material
               		</a>
             		</li>
             </ul> 
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Profile
-              </a>
-            </li>
-            <!-- Add more menu items as needed -->
           </ul>
         </div>
       </nav>

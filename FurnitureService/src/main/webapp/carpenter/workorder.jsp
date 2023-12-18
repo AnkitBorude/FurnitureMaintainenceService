@@ -66,32 +66,16 @@
       <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar">
         <div class="sidebar">
           <ul class="nav flex-column">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">
+           <li class="nav-item">
+              <a class="nav-link active" href="/FurnitureService/carpenter/dashboard.jsp">
                 Dashboard
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                Service Request
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="/FurnitureService/carpenter/workorder.jsp">
                 WorkOrder
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Bill And Material
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Profile
-              </a>
-            </li>
-            <!-- Add more menu items as needed -->
           </ul>
         </div>
       </nav>

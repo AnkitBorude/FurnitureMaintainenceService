@@ -19,7 +19,7 @@
     }
 
     #sidebar {
-      background-color: #343a40;
+      background-color: #563d7c;
       color: #fff;
       height: auto;
     }
@@ -35,11 +35,15 @@
     #sidebar a:hover {
       background-color: #555; /* Add hover effect */
     }
+    #navbar
+    {
+    	 background-color: #563d7c;
+    }
   </style>
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark" id="navbar">
     <a class="navbar-brand" href="#">Admin Dashboard</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -66,32 +70,30 @@
       <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar">
         <div class="sidebar">
           <ul class="nav flex-column">
-            <li class="nav-item">
+           <li class="nav-item">
               <a class="nav-link active" href="/FurnitureService/admin/dashboard.jsp">
                 Dashboard
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                Service Request
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="/FurnitureService/admin/workorder.jsp">
                 WorkOrder
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/FurnitureService/admin/billmaterial.jsp">
-                Bill And Material
-              </a>
+            	<ul class="nav flex-column">
+            		<li class="nav-item">
+            		 <a class="nav-link" href="/FurnitureService/admin/bill.jsp">
+                		Bill
+              		</a>
+            		</li>
+             		 <li class="nav-item">
+            		 <a class="nav-link" href="/FurnitureService/admin/billmaterial.jsp">
+               		 Material
+              		</a>
+            		</li>
+            </ul> 
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Profile
-              </a>
-            </li>
-            <!-- Add more menu items as needed -->
           </ul>
         </div>
       </nav>
