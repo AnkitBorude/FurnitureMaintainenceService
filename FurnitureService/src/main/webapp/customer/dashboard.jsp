@@ -59,7 +59,7 @@
           <%=cid %></span></a>
         </li>
        <li class="nav-item">
-          <a class="nav-link" href="/logout">Logout</a>
+          <a class="nav-link" href="/FurnitureService/customer/logout">Logout</a>
         </li>
       </ul>
     </div>
@@ -176,7 +176,21 @@
             out.println("<td>" + formattedDate + "</td>");
             out.println("<td>" + serviceDescription + "</td>");
             out.println("<td>" + carpenter+" "+carcontact + "</td>");
-            out.println("<td><span class='badge badge-pill badge-success'>" + service_status + "</span></td>");
+            if(service_status.equals("Assigned"))
+            {
+            	  out.println("<td><div class='alert alert-primary' role='alert'>" + service_status + "</td>");
+            } else if(service_status.equals("Approved"))
+            {
+            	  out.println("<td><div class='alert alert-success' role='alert'>" + service_status + "</td>");
+            }
+            else if(service_status.equals("Workorder"))
+            {
+            	  out.println("<td><div class='alert alert-info' role='alert'>" + service_status + "</td>");
+            }
+            else
+            {
+            	out.println("<td><div class='alert alert-warning' role='alert'>" + service_status + "</td>");
+            }
             out.println("</tr>");
         }
 

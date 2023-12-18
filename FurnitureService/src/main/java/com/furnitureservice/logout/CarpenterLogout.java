@@ -8,11 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * Servlet implementation class Logout
- */
-@WebServlet("/customer/logout")
-public class Logout extends HttpServlet {
+@WebServlet("/carpenter/logout")
+public class CarpenterLogout extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 HttpSession session = request.getSession(false);
@@ -23,6 +20,6 @@ public class Logout extends HttpServlet {
 	        }
 
 	        // Redirect back to the login page
-	        response.sendRedirect(request.getContextPath() + "/login.jsp");
+	        response.sendRedirect(request.getContextPath() + "/carpenter/login.jsp");
 	}
 }

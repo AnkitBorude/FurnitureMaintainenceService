@@ -112,31 +112,30 @@
       <!-- Main content -->
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" id="content">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Bills</h1>
-         
+          <h1 class="h2">Bills</h1>      
         </div>
 	 
         <!-- Page content goes here -->
        
     <div class="card mt-5">
         <div class="card-header">
-        <h1 class="h3">Completed Service Request</h1>
+        	<h1 class="h3">Completed Service Request</h1>
         </div>
         <div class="card-body">
-      <div class="table-responsive">
-      <table id="example" class="table table-striped data-table" style="width: 100%">
+      		<div class="table-responsive">
+    		<table id="example" class="table table-striped data-table" style="width: 100%">
         
         <thead>
             <tr>
                 <th>Service id</th>
                 <th>Service Item Name</th>
+                <th>Service Description</th>
                 <th>Service Date</th>
-                <th>Customer name</th>
-                <th>Carpenter name</th>
-                <th>Bill ID<th>
-                <th> Bill Date</th>
-             	<th>Total Bill</th>
-             	<th> View Bill</th>
+                <th>Customer name & Contact </th>
+                <th>Carpenter name & contact</th>
+             	<th>Total W/O</th>
+             	<th>Completed W/O</th>
+             	<th>Total Material Cost</th>
             </tr>
         </thead>
         <tbody>
@@ -146,7 +145,7 @@
          try
          {
         Connection con=DbConnector.getConnection();
-        String query = "SELECT service_id,service_item_name,service_status,service_date,service_description,customer_name,carpenter_name,carpenter_contact,sum(CASE WHEN workorder_status = 'Completed' THEN 1 ELSE 0 END) as completed_workorders from service left join workorder on service.service_id = workorder.fk_service_id left join customer on service.fk_customer_id = customer.customer_id LEFT JOIN carpenter ON service.fk_carpenter_id = carpenter.carpenter_id where service_status = 'Completed' GROUP BY service_id,customer_name, customer_contact,carpenter_name,carpenter_contact;";
+        String query = "SELECT service_id,service_item_name,service_status,service_date,service_description,COUNT(workorder_id) AS total_count,SUM(workorder_cost) AS total_sum,customer_name,customer_contact,carpenter_name,carpenter_contact,sum(CASE WHEN workorder_status = 'Completed' THEN 1 ELSE 0 END) as completed_workorders from service left join workorder on service.service_id = workorder.fk_service_id left join customer on service.fk_customer_id = customer.customer_id LEFT JOIN carpenter ON service.fk_carpenter_id = carpenter.carpenter_id where service_status = 'Completed' GROUP BY service_id,customer_name, customer_contact,carpenter_name,carpenter_contact;";
         Statement statement = con.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
 	
@@ -273,23 +272,24 @@
         
         <div class="card mt-5">
         <div class="card-header">
- <h1 class="h3"> Bills </h1>
+ <h1 class="h3"> Bill</h1>
         </div>
         <div class="card-body">
-       	 <div class="table-responsive">
+      <div class="table-responsive">
       <table id="example" class="table table-striped data-table" style="width: 100%">
         
         <thead>
             <tr>
                 <th>Service id</th>
                 <th>Service Item Name</th>
-                <th>Service Description</th>
                 <th>Service Date</th>
                 <th>Customer name & Contact </th>
                 <th>Carpenter name & contact</th>
-             	<th>Total W/O</th>
-             	<th>Completed W/O</th>
-             	<th>Total Material Cost</th>
+             	<th>Bill Id</th>
+             	<th>Bill Date</th>
+             	<th>Material Cost</th>
+             	<th>Total Bill</th>
+             	<th>View Bill</th>
             </tr>
         </thead>
         <tbody>
@@ -299,7 +299,7 @@
          try
          {
         Connection con=DbConnector.getConnection();
-        String query = "SELECT service_id,service_item_name,service_status,service_date,service_description,COUNT(workorder_id) AS total_count,SUM(workorder_cost) AS total_sum,customer_name,customer_contact,carpenter_name,carpenter_contact,sum(CASE WHEN workorder_status = 'Completed' THEN 1 ELSE 0 END) as completed_workorders from service left join workorder on service.service_id = workorder.fk_service_id left join customer on service.fk_customer_id = customer.customer_id LEFT JOIN carpenter ON service.fk_carpenter_id = carpenter.carpenter_id where service_status = 'Completed' GROUP BY service_id,customer_name, customer_contact,carpenter_name,carpenter_contact;";
+        String query = "SELECT service_id,service_item_name,service_status,service_date,bill.*,customer_name,customer_contact,carpenter_name,carpenter_contact from service left join bill on service.service_id = bill.fk_service_id left join customer on service.fk_customer_id = customer.customer_id LEFT JOIN carpenter ON service.fk_carpenter_id = carpenter.carpenter_id where service_status = 'Billed';";
         Statement statement = con.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
 	
@@ -308,34 +308,34 @@
         	int serviceid=resultSet.getInt("service_id");
             String serviceName = resultSet.getString("service_item_name");
            	java.sql.Date serviceDate = resultSet.getDate("service_date");
-            String serviceDescription = resultSet.getString("service_description");
-            String service_status = resultSet.getString("service_status");
             
             String customer = resultSet.getString("customer_name");
             String cuscontact = resultSet.getString("customer_contact");
             
             String carpenterName = resultSet.getString("carpenter_name");
             String carpenterContact = resultSet.getString("carpenter_contact");
-           
-            int total_count=resultSet.getInt("total_count");
-            int total_sum=resultSet.getInt("total_sum");
-            int total_completed=resultSet.getInt("completed_workorders");
             
+            int billid= resultSet.getInt("bill_id");
+            int billtotal= resultSet.getInt("bill_total_cost");
+            int billmaterialcost= resultSet.getInt("bill_material_cost");
+        	java.sql.Date billdate= resultSet.getDate("bill_date");
             // Format the date as needed (adjust the pattern accordingly)
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String formattedDate = dateFormat.format(serviceDate);
-           
+            String sformattedDate = dateFormat.format(serviceDate);
+            String bformattedDate = dateFormat.format(billdate);
             out.println("<tr>");
             out.println("<td>" + serviceid + "</td>");
             out.println("<td>" + serviceName + "</td>");
-            out.println("<td>" + serviceDescription + "</td>");
-            out.println("<td>" + formattedDate + "</td>");
+         
+            out.println("<td>" + sformattedDate + "</td>");
            
             out.println("<td>" + customer + " "+ cuscontact+"</td>");
             out.println("<td>" + carpenterName + " "+carpenterContact+"</td>");
-            out.println("<td>" + total_count + "</td>");
-            out.println("<td>" + total_completed + "</td>");
-            out.println("<td>" + total_sum + "</td>");
+            out.println("<td>" + billid + "</td>");
+            out.println("<td>" + bformattedDate + "</td>");
+            out.println("<td>" + billmaterialcost + "</td>");
+            out.println("<td>" + billtotal + "</td>");
+            out.println("<td><button class='btn btn-primary'>View</button>'</td>");
             out.println("</tr>");
         }
 
@@ -350,12 +350,10 @@
         </tbody>
     </table>
     </div>
-        </div>
+    </div>
         </div>
       </main>
     </div>
-  </div>
-
   <!-- Bootstrap and JavaScript libraries -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
