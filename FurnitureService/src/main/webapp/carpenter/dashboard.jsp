@@ -47,7 +47,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
        <li class="nav-item">
-          <a class="nav-link" href="#">Logout</a>
+          <a class="nav-link" href="/FurnitureService/carpenter/logout">Logout</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">
