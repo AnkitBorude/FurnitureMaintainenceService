@@ -33,8 +33,9 @@ public class WorkOrderComlpeted extends HttpServlet {
 				java.sql.Statement stmt1= con.createStatement();
 			
 				stmt1.execute("update workorder set workorder_status= 'Completed' where workorder_id ="+wid);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/carpenter/workorder.jsp");
-	            dispatcher.forward(request, response);			
+//				RequestDispatcher dispatcher = request.getRequestDispatcher("/carpenter/workorder.jsp");
+//	            dispatcher.forward(request, response);
+				response.sendRedirect(request.getContextPath() + "/carpenter/workorder.jsp");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

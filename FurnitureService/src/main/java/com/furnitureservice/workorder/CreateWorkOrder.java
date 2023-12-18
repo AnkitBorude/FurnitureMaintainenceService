@@ -37,7 +37,7 @@ public class CreateWorkOrder extends HttpServlet {
 				PreparedStatement stmt =con.prepareStatement(sql);
 				stmt.setDate(1,date);		
 				stmt.setString(2,workorderDes);
-				stmt.setString(3,workorderDes);
+				stmt.setString(3,workorderStatus);
 				stmt.setInt(4,carpenter);
 				stmt.setInt(5,Integer.parseInt(serviceId));
 				stmt.setInt(6,Integer.parseInt(workordercost));
@@ -47,11 +47,13 @@ public class CreateWorkOrder extends HttpServlet {
 				java.sql.Statement stmt1= con.createStatement();
 				stmt1.execute("update service set service_status= 'Workorder' where service_id ="+serviceId);
 				
-		            RequestDispatcher dispatcher = request.getRequestDispatcher("/carpenter/workorder.jsp");
-		            dispatcher.forward(request, response);
+//		            RequestDispatcher dispatcher = request.getRequestDispatcher("/carpenter/workorder.jsp");
+//		            dispatcher.forward(request, response);
+				response.sendRedirect(request.getContextPath() + "/carpenter/workorder.jsp");
 		        } else {
 		            // Handle unsuccessful registration
-		            response.sendRedirect("/carpenter/workorder.jsp");
+//		            response.sendRedirect("/carpenter/workorder.jsp");
+		        	response.sendRedirect(request.getContextPath() + "/carpenter/workorder.jsp");
 		        }
 			} catch (SQLException e) {
 				e.printStackTrace();

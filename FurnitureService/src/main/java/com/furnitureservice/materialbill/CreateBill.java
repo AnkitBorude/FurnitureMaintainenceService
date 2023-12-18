@@ -49,11 +49,12 @@ public class CreateBill extends HttpServlet {
 				{
 				java.sql.Statement stmt1= con.createStatement();
 				stmt1.execute("update service set service_status= 'Billed' where service_id ="+serviceId);
-		            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/bill.jsp");
-		            dispatcher.forward(request, response);
+//		            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/bill.jsp");
+//		            dispatcher.forward(request, response);
+				response.sendRedirect(request.getContextPath() + "/admin/bill.jsp");
 		        } else {
 		            // Handle unsuccessful registration
-		            response.sendRedirect("/admin/bill.jsp");
+		        	response.sendRedirect(request.getContextPath() + "/admin/billmaterial.jsp");
 		        }
 			} catch (SQLException e) {
 				e.printStackTrace();

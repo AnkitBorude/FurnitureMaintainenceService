@@ -23,19 +23,17 @@ public class AssignCarpenter extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String sid=request.getParameter("serviceId");
-		String cid=request.getParameter("customerId");
 		String car=request.getParameter("carid");
 		//database
 		HttpSession session= request.getSession();
 		int shopkeeper = (int)session.getAttribute("adminId");
 		Connection con=DbConnector.getConnection();
 		try {
-			PreparedStatement stmt =con.prepareStatement("update service set fk_customer_id=?,fk_carpenter_id=? , fk_shopkeeper_id=?,service_status = ? where service_id=?");
-			stmt.setInt(1,Integer.parseInt(cid));		
-			stmt.setInt(2,Integer.parseInt(car));
-			stmt.setInt(3, shopkeeper);	
-			stmt.setString(4,"Assigned");
-			stmt.setInt(5,Integer.parseInt(sid));
+			PreparedStatement stmt =con.prepareStatement("update service set fk_carpenter_id=? , fk_shopkeeper_id=?,service_status = ? where service_id=?");
+			stmt.setInt(1,Integer.parseInt(car));
+			stmt.setInt(2, shopkeeper);	
+			stmt.setString(3,"Assigned");
+			stmt.setInt(4,Integer.parseInt(sid));
 			int row=stmt.executeUpdate();
 		if(row>0)
 			{

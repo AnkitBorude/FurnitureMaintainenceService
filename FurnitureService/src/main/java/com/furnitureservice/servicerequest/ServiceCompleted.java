@@ -30,8 +30,10 @@ public class ServiceCompleted extends HttpServlet {
 		try {
 			java.sql.Statement stmt1= con.createStatement();
 			stmt1.execute("update service set service_status= 'Completed' where service_id ="+serviceid);
-	        RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/dashboard.jsp");
-	        dispatcher.forward(request, response);
+//	        RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/dashboard.jsp");
+//	        dispatcher.forward(request, response);
+			
+			response.sendRedirect(request.getContextPath() + "/admin/dashboard.jsp");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

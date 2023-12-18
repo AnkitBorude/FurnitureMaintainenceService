@@ -39,11 +39,10 @@ public class AddMaterial extends HttpServlet {
 			int row=stmt.executeUpdate();
 		if(row>0)
 			{
-	            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/billmaterial.jsp");
-	            dispatcher.forward(request, response);
+			response.sendRedirect(request.getContextPath() + "/admin/billmaterial.jsp");
 	        } else {
 	            // Handle unsuccessful registration
-	            response.sendRedirect("/admin/billmaterial.jsp");
+	        	response.sendRedirect(request.getContextPath() + "/admin/billmaterial.jsp");
 	        }
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -120,8 +120,7 @@
             <tr>
                 <th>Work id</th>
                 <th> Service ID</th>
-                 <th>Service Date</th>
-                <th>Service Name</th>
+                 <th>Service Date & Name</th>
                 <th>workorder Status</th>
             	<th>workorder cost</th>
             	<th>workorder date</th>
@@ -170,8 +169,7 @@
             out.println("<tr>");
             out.println("<td>" + workorderid + "</td>");
             out.println("<td>" + serviceid + "</td>");
-            out.println("<td>" + sformattedDate + "</td>");
-            out.println("<td>" + serviceName + "</td>");
+            out.println("<td>" + sformattedDate +" "+serviceName+"</td>");
             out.println("<td>" + workorderStatus + "</td>");
             out.println("<td>" + workordercost + "</td>");
             out.println("<td>" + wformattedDate + "</td>");

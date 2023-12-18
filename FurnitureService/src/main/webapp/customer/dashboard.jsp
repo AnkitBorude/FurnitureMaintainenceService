@@ -137,6 +137,7 @@
       <table class="table table-striped data-table" style="width: 100%">
         <thead>
             <tr>
+            <th>Service Id</th>
                 <th>Service item Name</th>
                 <th>Service Date</th>
                 <th>Service Description</th>
@@ -149,12 +150,13 @@
         <%
         try{
         Connection con=DbConnector.getConnection();
-        String query = "SELECT service_item_name, service_date, service_description,carpenter_name,carpenter_contact,service_status FROM service left join carpenter on service.fk_carpenter_id=carpenter.carpenter_id where fk_customer_id="+cid;
+        String query = "SELECT service_id,service_item_name, service_date, service_description,carpenter_name,carpenter_contact,service_status FROM service left join carpenter on service.fk_carpenter_id=carpenter.carpenter_id where fk_customer_id="+cid;
         Statement statement = con.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
 
         // Loop through the result set and populate the Bootstrap table
         while (resultSet.next()) {
+        	int serviceid=resultSet.getInt("service_id");
             String serviceName = resultSet.getString("service_item_name");
            java.sql.Date serviceDate = resultSet.getDate("service_date");
             String serviceDescription = resultSet.getString("service_description");
@@ -172,6 +174,7 @@
             String formattedDate = dateFormat.format(serviceDate);
            
             out.println("<tr>");
+            out.println("<td>" + serviceid + "</td>");
             out.println("<td>" + serviceName + "</td>");
             out.println("<td>" + formattedDate + "</td>");
             out.println("<td>" + serviceDescription + "</td>");

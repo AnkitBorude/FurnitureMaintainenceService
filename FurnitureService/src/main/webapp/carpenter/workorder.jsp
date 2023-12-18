@@ -188,7 +188,7 @@
              try
          {
         Connection con=DbConnector.getConnection();
-        String query = "select service_id from service where service.fk_carpenter_id = "+carpenter+" and service.service_status='Assigned'";
+        String query = "select service_id from service where service.fk_carpenter_id = "+carpenter+" and (service.service_status='Assigned' or service.service_status='Approved')";
         Statement statement = con.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
 

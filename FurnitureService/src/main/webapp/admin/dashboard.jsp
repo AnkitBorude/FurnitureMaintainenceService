@@ -195,15 +195,32 @@
     <div class="container form-container">
     <form action="assigncarpenter" method="get">
         <div class="form-group">
-            <label for="serviceId">Service ID:</label>
-            <input type="number" class="form-control" id="serviceId" name="serviceId" placeholder="Enter Service ID" required>
-        </div>
+        	<label for="carpenterSelect">Select Service Id:</label>
+            <select class="form-control" id="carpenterSelect" name="serviceId" id ="serviceId" required>
+            <% 
+             try
+         {
+        Connection con=DbConnector.getConnection();
+        String query = "select service_id from service where service.fk_carpenter_id is null";
+        Statement statement = con.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
 
-        <div class="form-group">
-            <label for="customerId">Customer ID:</label>
-            <input type="number" class="form-control" id="customerId" name="customerId" placeholder="Enter Customer ID" required>
-        </div>
+        // Loop through the result set and populate the Bootstrap table
+        while (resultSet.next()) {
+        	int serviceid=resultSet.getInt("service_id");
+            out.println("<option value='" + serviceid + "'>"+serviceid+"</option>");
+        }
 
+        // Close resources
+        resultSet.close();
+        statement.close();
+        con.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    %>
+            </select>
+        </div>
         <div class="form-group">
             <label for="carpenterSelect">Select Carpenter:</label>
             <select class="form-control" id="carpenterSelect" name="carid" required>
