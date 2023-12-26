@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.furnitureservice.con.*;
+import com.furnitureservice.log.Logger;
 import com.furnitureservice.con.*;
 @WebServlet("/admin/register")
 public class AdminRegister extends HttpServlet {
@@ -35,6 +36,8 @@ public class AdminRegister extends HttpServlet {
 
 	        if (registrationSuccessful) {
 	            // Set an attribute to indicate successful registration
+	        	String Log="Admin  Registration Successfull"+ccontact;
+				new Logger(Log);
 	            request.setAttribute("registrationMessage", "Registration successful! Please login.");
 
 	            // Forward the request to the login page
@@ -42,6 +45,9 @@ public class AdminRegister extends HttpServlet {
 	            dispatcher.forward(request, response);
 	        } else {
 	            // Handle unsuccessful registration
+	        	
+	        	String Log="Admin Registration Failed"+ccontact;
+				new Logger(Log);
 	            response.sendRedirect("/admin/register.jsp");
 	        }
 			}

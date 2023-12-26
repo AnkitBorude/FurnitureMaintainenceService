@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.furnitureservice.con.DbConnector;
-
+import com.furnitureservice.log.*;
 /**
  * Servlet implementation class LoginAdmin
  */
@@ -42,10 +42,12 @@ public class LoginAdmin extends HttpServlet {
 
 	                HttpSession session = request.getSession();
 	                session.setAttribute("adminId", customerId);
+	                new Logger("Admin Login Successfull admin Id-"+customerId);
 	                RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/dashboard.jsp");
 	                dispatcher.forward(request, response);
 	            } else {
 	            	 request.setAttribute("loginfailed", "Invalid username or password");
+	            	 new Logger("Admin Login Failed Contact Number-"+contactNumber);
 	                 RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/login.jsp");
 	                 dispatcher.forward(request, response);
 	            }

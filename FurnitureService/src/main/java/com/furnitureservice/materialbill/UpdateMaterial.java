@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.furnitureservice.con.DbConnector;
+import com.furnitureservice.log.Logger;
 
 
 @WebServlet("/admin/updatematerial")
@@ -37,6 +38,8 @@ public class UpdateMaterial extends HttpServlet {
 			{
 //	            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/billmaterial.jsp");
 //	            dispatcher.forward(request, response);
+			String Log="Admin "+shopkeeper+" Updated Material with id"+mname+" quantity "+mq+"at rate "+mr;
+			new Logger(Log);
 			response.sendRedirect(request.getContextPath() + "/admin/billmaterial.jsp");
 	        } else {
 	            // Handle unsuccessful registration

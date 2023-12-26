@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.furnitureservice.con.DbConnector;
+import com.furnitureservice.log.Logger;
 
 /**
  * Servlet implementation class AssignCarpenter
@@ -37,6 +38,9 @@ public class AssignCarpenter extends HttpServlet {
 			int row=stmt.executeUpdate();
 		if(row>0)
 			{
+
+        		String Log="Admin "+shopkeeper+"Assgined Carpenter "+car+" to service "+sid;
+				new Logger(Log);
 	            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/dashboard.jsp");
 	            dispatcher.forward(request, response);
 	        } else {

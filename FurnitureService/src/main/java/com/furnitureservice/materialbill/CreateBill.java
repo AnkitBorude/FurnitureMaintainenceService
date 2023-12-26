@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.furnitureservice.con.DbConnector;
+import com.furnitureservice.log.Logger;
 
 @WebServlet("/admin/createbill")
 public class CreateBill extends HttpServlet {
@@ -47,6 +48,8 @@ public class CreateBill extends HttpServlet {
 				int row=stmt.executeUpdate();
 			if(row>0)
 				{
+				String Log="Admin "+shopkeeper+" Created Bill for Service Id "+serviceId+" with totalAmount "+totalAmount;
+				new Logger(Log);
 				java.sql.Statement stmt1= con.createStatement();
 				stmt1.execute("update service set service_status= 'Billed' where service_id ="+serviceId);
 //		            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/bill.jsp");

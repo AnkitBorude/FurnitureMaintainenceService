@@ -10,10 +10,14 @@ public class DbConnector {
 		final String port="5432";
 		final String username="application_frontend";
 		final String password="abcd@1234";
+		final String host="localhost";
+		final String dbname="furnitureaid";
+		
+		final String mString="jdbc:postgresql://"+host+":"+port+"/"+dbname;
 	try
 	{
 		Class.forName("org.postgresql.Driver");
-		Connection connection=DriverManager.getConnection("jdbc:postgresql://localhost:5432/furnitureaid",username,password);
+		Connection connection=DriverManager.getConnection(mString,username,password);
 		return connection;
 	}
 	catch(Exception e)

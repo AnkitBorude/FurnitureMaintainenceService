@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.furnitureservice.con.DbConnector;
+import com.furnitureservice.log.Logger;
 
 /**
  * Servlet implementation class AssignCarpenter
@@ -32,7 +33,8 @@ public class ServiceCompleted extends HttpServlet {
 			stmt1.execute("update service set service_status= 'Completed' where service_id ="+serviceid);
 //	        RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/dashboard.jsp");
 //	        dispatcher.forward(request, response);
-			
+			String Log="Admin "+shopkeeper+"Marked service "+serviceid+" Completed";
+			new Logger(Log);
 			response.sendRedirect(request.getContextPath() + "/admin/dashboard.jsp");
 		} catch (SQLException e) {
 			e.printStackTrace();

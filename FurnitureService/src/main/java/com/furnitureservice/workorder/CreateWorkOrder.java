@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.furnitureservice.con.DbConnector;
+import com.furnitureservice.log.Logger;
 
 @WebServlet("/carpenter/createworkorder")
 public class CreateWorkOrder extends HttpServlet {
@@ -46,7 +47,8 @@ public class CreateWorkOrder extends HttpServlet {
 				{
 				java.sql.Statement stmt1= con.createStatement();
 				stmt1.execute("update service set service_status= 'Workorder' where service_id ="+serviceId);
-				
+				String Log="Carpenter "+carpenter+"created workorder with cost"+workordercost+" of service "+serviceId;
+				new Logger(Log);
 //		            RequestDispatcher dispatcher = request.getRequestDispatcher("/carpenter/workorder.jsp");
 //		            dispatcher.forward(request, response);
 				response.sendRedirect(request.getContextPath() + "/carpenter/workorder.jsp");

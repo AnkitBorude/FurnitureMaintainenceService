@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.furnitureservice.con.*;
+import com.furnitureservice.log.Logger;
 @WebServlet("/customer/login")
 public class LoginCustomer extends HttpServlet {
 
@@ -40,10 +41,12 @@ public class LoginCustomer extends HttpServlet {
 
                 HttpSession session = request.getSession();
                 session.setAttribute("customerId", customerId);
+                new Logger("Customer Login Successfull Customer Id-"+customerId);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/customer/dashboard.jsp");
                 dispatcher.forward(request, response);
             } else {
             	 request.setAttribute("loginfailed", "Invalid username or password");
+            	 new Logger("Customer Login Successfull Customer contact"+contactNumber);
                  RequestDispatcher dispatcher = request.getRequestDispatcher("/customer/login.jsp");
                  dispatcher.forward(request, response);
             }

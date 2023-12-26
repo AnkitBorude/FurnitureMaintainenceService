@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.furnitureservice.con.DbConnector;
+import com.furnitureservice.log.Logger;
 
 /**
  * Servlet implementation class LoginCarpenter
@@ -42,10 +43,12 @@ public class LoginCarpenter extends HttpServlet {
 
 	                HttpSession session = request.getSession();
 	                session.setAttribute("carpenterId", customerId);
+	                new Logger("Carpenter Login Successfull carpenter Id-"+customerId);
 	                RequestDispatcher dispatcher = request.getRequestDispatcher("/carpenter/dashboard.jsp");
 	                dispatcher.forward(request, response);
 	            } else {
 	            	 request.setAttribute("loginfailed", "Invalid username or password");
+	            	 new Logger("Carpenter Login Failed contact number -"+contactNumber);
 	                 RequestDispatcher dispatcher = request.getRequestDispatcher("/carpenter/login.jsp");
 	                 dispatcher.forward(request, response);
 	            }

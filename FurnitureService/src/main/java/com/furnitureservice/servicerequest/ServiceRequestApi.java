@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.furnitureservice.con.*;
+import com.furnitureservice.log.Logger;
 /**
  * Servlet implementation class ServiceRequestApi
  */
@@ -63,6 +64,8 @@ public class ServiceRequestApi extends HttpServlet {
 
             // Check the result
             if (rowsAffected > 0) {
+            	String Log="Customer "+customerId+" Created New Service Request for "+serviceName;
+				new Logger(Log);
                 System.out.println("Data inserted successfully!");
             } else {
                 System.out.println("Failed to insert data.");

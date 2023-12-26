@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.furnitureservice.con.DbConnector;
+import com.furnitureservice.log.Logger;
 
 /**
  * Servlet implementation class AssignCarpenter
@@ -35,6 +36,8 @@ public class WorkOrderComlpeted extends HttpServlet {
 				stmt1.execute("update workorder set workorder_status= 'Completed' where workorder_id ="+wid);
 //				RequestDispatcher dispatcher = request.getRequestDispatcher("/carpenter/workorder.jsp");
 //	            dispatcher.forward(request, response);
+				String Log="Carpenter "+carpenter+"Completed workorder id"+wid;
+				new Logger(Log);
 				response.sendRedirect(request.getContextPath() + "/carpenter/workorder.jsp");
 		} catch (SQLException e) {
 			e.printStackTrace();

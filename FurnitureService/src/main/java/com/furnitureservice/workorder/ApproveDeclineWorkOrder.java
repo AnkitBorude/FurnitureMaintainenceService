@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.furnitureservice.con.DbConnector;
+import com.furnitureservice.log.Logger;
 
 /**
  * Servlet implementation class AssignCarpenter
@@ -39,6 +40,8 @@ public class ApproveDeclineWorkOrder extends HttpServlet {
 				stmt1.execute("update service set service_status= 'Approved' where service_id ="+serviceid);
 //	            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/workorder.jsp");
 //	            dispatcher.forward(request, response);
+				String Log="Admin "+shopkeeper+"Approved workorder id"+workorderid+" of service "+serviceid;
+				new Logger(Log);
 				response.sendRedirect(request.getContextPath() + "/admin/workorder.jsp");
 			}else if(type.equals("decline"))
 			{
@@ -53,6 +56,8 @@ public class ApproveDeclineWorkOrder extends HttpServlet {
 			        	System.out.println("final workorder");
 			        	stmt1.execute("delete from workorder where workorder_id ="+workorderid);
 			        	stmt1.execute("update service set service_status= 'Assigned' where service_id ="+serviceid);
+			        	String Log="Admin "+shopkeeper+"Declined the last workorder id"+workorderid+" of service "+serviceid;
+						new Logger(Log);
 			        	response.sendRedirect(request.getContextPath() + "/admin/workorder.jsp");
 			        }
 			        else
@@ -60,6 +65,8 @@ public class ApproveDeclineWorkOrder extends HttpServlet {
 			        	System.out.println("non final workorder");
 			        	System.out.println(workorderid);
 			        	stmt1.execute("delete from workorder where workorder_id ="+workorderid);
+			        	String Log="Admin "+shopkeeper+"Declined workorder id"+workorderid+" of service "+serviceid;
+						new Logger(Log);
 			        	response.sendRedirect(request.getContextPath() + "/admin/workorder.jsp");
 			        }
 //	            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/workorder.jsp");
