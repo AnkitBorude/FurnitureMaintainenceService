@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.furnitureservice.con.ConnectionPool;
 import com.furnitureservice.con.DbConnector;
 import com.furnitureservice.log.*;
 /**
@@ -23,13 +25,16 @@ public class LoginAdmin extends HttpServlet {
 	 protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
 	        Connection connection = null;
+	        ServletContext ctx=getServletContext();
+	        ConnectionPool pool=(ConnectionPool)ctx.getAttribute("pool");
 	        PreparedStatement preparedStatement = null;
 	        ResultSet resultSet = null;
 	        String contactNumber = request.getParameter("contactNumber");
 	        String password = request.getParameter("password");
 	        try {
 	          
-	            connection = DbConnector.getConnection();
+	            //connection = DbConnector.getConnection();
+	        	connection=pool.getConnection();
 	            String sql = "SELECT shopkeeper_id FROM shopkeeper WHERE shopkeeper_contact = ? AND shopkeeper_password = ?";
 	            preparedStatement = connection.prepareStatement(sql);
 	            preparedStatement.setString(1, contactNumber);
@@ -59,7 +64,7 @@ public class LoginAdmin extends HttpServlet {
 	            try {
 	                if (resultSet != null) resultSet.close();
 	                if (preparedStatement != null) preparedStatement.close();
-	                if (connection != null) connection.close();
+	                if (connection != null) pool.returnConnection(connection);
 	            } catch (Exception e) {
 	                e.printStackTrace();
 	            }

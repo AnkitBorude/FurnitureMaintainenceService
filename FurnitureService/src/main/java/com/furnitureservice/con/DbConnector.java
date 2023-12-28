@@ -16,7 +16,7 @@ public class DbConnector {
 		final String mString="jdbc:postgresql://"+host+":"+port+"/"+dbname;
 	try
 	{
-		Class.forName("org.postgresql.Driver");
+		
 		Connection connection=DriverManager.getConnection(mString,username,password);
 		return connection;
 	}
